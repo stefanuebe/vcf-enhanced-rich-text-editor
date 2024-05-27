@@ -21,7 +21,7 @@ window.addEventListener('WebComponentsReady', () => {
         const rte = demo.querySelector('vcf-enhanced-rich-text-editor');
         if (!rte.hasAttribute('theme') && rte.className.indexOf('min-height') === -1) {
           rte.value = `[
-            {"insert":"High quality rich text editor for the web"},
+            {"insert":"Hello World"},
             {"attributes":{"header":2},"insert":"\\n"},
             {"attributes":{"readonly":true},"insert":"Some readonly text"},
             {"insert":"<vcf-enhanced-rich-text-editor> is a Web Component providing rich text editor functionality, part of the "},{"attributes":{"link":"https://vaadin.com/components"},"insert":"Vaadin components"},

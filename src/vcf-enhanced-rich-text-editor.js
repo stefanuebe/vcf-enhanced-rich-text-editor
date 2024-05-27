@@ -24,6 +24,7 @@ import './vcf-enhanced-rich-text-editor-styles';
 import './vcf-enhanced-rich-text-editor-toolbar-styles';
 import './vcf-enhanced-rich-text-editor-extra-icons';
 import { ReadOnlyBlot, LinePartBlot, TabBlot, PreTabBlot, TabsContBlot, PlaceholderBlot } from './vcf-enhanced-rich-text-editor-blots';
+import TableModule from './table/index.js';
 
 const Quill = window.Quill;
 const Inline = Quill.import('blots/inline');
@@ -38,6 +39,31 @@ Inline.order.push(PlaceholderBlot.blotName, ReadOnlyBlot.blotName, LinePartBlot.
   const HANDLERS = ['bold', 'italic', 'underline', 'strike', 'header', 'script', 'list', 'indent', 'align', 'blockquote', 'code-block', 'placeholder'];
 
   const TOOLBAR_BUTTON_GROUPS = {
+    // table:   [
+    //   {
+    //     table: TableModule.tableOptions()
+    //   },
+    //   {
+    //     table: [
+    //       'insert',
+    //       'append-row-above',
+    //       'append-row-below',
+    //       'append-col-before',
+    //       'append-col-after',
+    //       'remove-col',
+    //       'remove-row',
+    //       'remove-table',
+    //       'split-cell',
+    //       'merge-selection',
+    //       'remove-cell',
+    //       'remove-selection',
+    //       'hide-border',
+    //       'show-border',
+    //       'undo',
+    //       'redo'
+    //     ]
+    //   }
+    // ],
     history: ['undo', 'redo'],
     emphasis: ['bold', 'italic', 'underline', 'strike'],
     heading: ['h1', 'h2', 'h3'],
@@ -792,8 +818,78 @@ Inline.order.push(PlaceholderBlot.blotName, ReadOnlyBlot.blotName, LinePartBlot.
 
       this._editor = new Quill(editor, {
         modules: {
-          toolbar: toolbarConfig
-        }
+          toolbar: toolbarConfig,
+          // table: true
+        },
+        // keyboard: {
+        //   // Since Quill’s default handlers are added at initialization, the only way to prevent them is to add yours in the configuration.
+        //   bindings: {
+        //     tab: {
+        //       key: 'tab',
+        //       handler: function (range, keycontext) {
+        //         let outSideOfTable = TableModule.keyboardHandler(this.quill, 'tab', range, keycontext)
+        //         if (outSideOfTable){ //for some reason when you return true as quill says it should hand it to the default like the other bindings... for tab it doesnt.
+        //           this.quill.history.cutoff(); //mimic the exact same thing quill does
+        //           let delta = new Delta().retain(range.index)
+        //               .delete(range.length)
+        //               .insert('\t');
+        //           this.quill.updateContents(delta, Quill.sources.USER);
+        //           this.quill.history.cutoff();
+        //           this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
+        //         }
+        //       }
+        //     },
+        //     shiftTab: {
+        //       key: 'tab',
+        //       shiftKey: true,
+        //       handler: function (range, keycontext) {
+        //         return TableModule.keyboardHandler(this.quill, 'shiftTab', range, keycontext);
+        //       }
+        //     },
+        //     selectAll: {
+        //       key: 'a',
+        //       shortKey: true,
+        //       handler: function (range, keycontext) {
+        //         return TableModule.keyboardHandler(this.quill, 'selectAll', range, keycontext);
+        //       }
+        //     },
+        //     backspace: {
+        //       key: 'backspace',
+        //       handler: function (range, keycontext) {
+        //         return TableModule.keyboardHandler(this.quill, 'backspace', range, keycontext);
+        //       }
+        //     },
+        //     delete: {
+        //       key: 'delete',
+        //       handler: function (range, keycontext) {
+        //         return TableModule.keyboardHandler(this.quill, 'delete', range, keycontext);
+        //       }
+        //     },
+        //     undo: {
+        //       shortKey: true,
+        //       key: 'z',
+        //       handler: function (range, keycontext) {
+        //         return TableModule.keyboardHandler(this.quill, 'undo', range, keycontext);
+        //       }
+        //     },
+        //     redo: {
+        //       shortKey: true,
+        //       shiftKey: true,
+        //       key: 'z',
+        //       handler: function (range, keycontext) {
+        //         return TableModule.keyboardHandler(this.quill, 'redo', range, keycontext);
+        //       }
+        //     },
+        //     copy: {
+        //       shortKey: true,
+        //       key: 'c',
+        //       handler: function (range, keycontext) {
+        //         return TableModule.keyboardHandler(this.quill, 'copy', range, keycontext);
+        //       }
+        //     }
+        //   }
+        // }
+
       });
       const _editor = this._editor;
 

@@ -30,6 +30,18 @@
   <body>
     <main class="vertical-section-container centered hidden">
       <h4><a href="api/#/elements/Vaadin.VcfEnhancedRichTextEditor">API documentation ↗</a></h4>
+      <h3>Table addon</h3>
+      <demo-snippet>
+        <template>
+          <vcf-enhanced-rich-text-editor id="table-addon"></vcf-enhanced-rich-text-editor>
+          <script>
+            window.addEventListener('WebComponentsReady', () => {
+              let rte = document.querySelector('#table-addon');
+            });
+          </script>
+        </template>
+      </demo-snippet>
+
       <h3>Custom Buttons</h3>
       <demo-snippet>
         <template>
@@ -156,6 +168,7 @@
           </script>
         </template>
       </demo-snippet>
+
     </main>
   </body>
 </html>

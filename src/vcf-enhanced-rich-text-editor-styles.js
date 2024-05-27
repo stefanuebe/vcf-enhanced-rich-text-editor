@@ -1,11 +1,12 @@
 import './vcf-enhanced-rich-text-editor-content-styles.js';
 import './vcf-enhanced-rich-text-editor-toolbar-styles.js';
+import './vcf-enhanced-rich-text-editor-table-styles.js';
 const documentContainer = document.createElement('template');
 
 documentContainer.innerHTML = `
   <dom-module id="vcf-enhanced-rich-text-editor-styles">
     <template>
-      <style include="vcf-enhanced-rich-text-editor-content-styles vcf-enhanced-rich-text-editor-toolbar-styles">
+      <style include="vcf-enhanced-rich-text-editor-content-styles vcf-enhanced-rich-text-editor-toolbar-styles vcf-enhanced-rich-text-editor-table-styles">
         :host([readonly]) [part="toolbar"],
         :host([readonly]) ::slotted([part~="toolbar-button"]) {
           display: none;
