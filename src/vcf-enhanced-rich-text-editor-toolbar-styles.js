@@ -55,6 +55,7 @@ documentContainer.innerHTML = `
           transform: translate(-50%, -50%);
         }
 
+        [part~="toolbar-button-table-icon"]::before,
         [part~="toolbar-button-undo-icon"]::before,
         [part~="toolbar-button-redo-icon"]::before,
         [part~="toolbar-button-list-ordered-icon"]::before,

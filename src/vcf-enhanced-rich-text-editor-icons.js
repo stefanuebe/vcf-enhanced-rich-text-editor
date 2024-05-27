@@ -23,6 +23,7 @@ documentContainer.innerHTML = `
         --vaadin-rte-icons-list-ordered: "\\ea08";
         --vaadin-rte-icons-redo: "\\ea09";
         --vaadin-rte-icons-undo: "\\ea0a";
+        --vaadin-rte-icons-table: "T";
       }
     </style>
   </custom-style>
@@ -55,6 +56,10 @@ documentContainer.innerHTML = `
 
         [part~="toolbar-button-undo-icon"]::before {
           content: var(--vaadin-rte-icons-undo);
+        }
+
+        [part~="toolbar-button-table-icon"]::before {
+          content: var(--vaadin-rte-icons-table);
         }
       </style>
     </template>

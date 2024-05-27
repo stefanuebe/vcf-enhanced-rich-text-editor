@@ -25,11 +25,14 @@ import './vcf-enhanced-rich-text-editor-toolbar-styles';
 import './vcf-enhanced-rich-text-editor-extra-icons';
 import { ReadOnlyBlot, LinePartBlot, TabBlot, PreTabBlot, TabsContBlot, PlaceholderBlot } from './vcf-enhanced-rich-text-editor-blots';
 import TableModule from './table/index.js';
+import TableTrick from "./table/js/TableTrick";
 
 const Quill = window.Quill;
 const Inline = Quill.import('blots/inline');
 
 Inline.order.push(PlaceholderBlot.blotName, ReadOnlyBlot.blotName, LinePartBlot.blotName, TabBlot.blotName, PreTabBlot.blotName);
+
+Quill.register('modules/table', TableModule);
 
 (function() {
   'use strict';
@@ -39,31 +42,6 @@ Inline.order.push(PlaceholderBlot.blotName, ReadOnlyBlot.blotName, LinePartBlot.
   const HANDLERS = ['bold', 'italic', 'underline', 'strike', 'header', 'script', 'list', 'indent', 'align', 'blockquote', 'code-block', 'placeholder'];
 
   const TOOLBAR_BUTTON_GROUPS = {
-    // table:   [
-    //   {
-    //     table: TableModule.tableOptions()
-    //   },
-    //   {
-    //     table: [
-    //       'insert',
-    //       'append-row-above',
-    //       'append-row-below',
-    //       'append-col-before',
-    //       'append-col-after',
-    //       'remove-col',
-    //       'remove-row',
-    //       'remove-table',
-    //       'split-cell',
-    //       'merge-selection',
-    //       'remove-cell',
-    //       'remove-selection',
-    //       'hide-border',
-    //       'show-border',
-    //       'undo',
-    //       'redo'
-    //     ]
-    //   }
-    // ],
     history: ['undo', 'redo'],
     emphasis: ['bold', 'italic', 'underline', 'strike'],
     heading: ['h1', 'h2', 'h3'],
@@ -223,6 +201,16 @@ Inline.order.push(PlaceholderBlot.blotName, ReadOnlyBlot.blotName, LinePartBlot.
         <div class="vcf-enhanced-rich-text-editor-container">
           <!-- Create toolbar container -->
           <div part="toolbar">
+            <span part="toolbar-group toolbar-group-table">
+              <!-- Table -->
+              <button type="button" on-click="_table" part="toolbar-button toolbar-button-table" title="table">
+                <slot name="table">
+                  <vaadin-icon part="toolbar-button-icon toolbar-button-table-icon"></vaadin-icon>
+                </slot>
+              </button>
+            </span>
+
+
             <span part="toolbar-group toolbar-group-history" style="display: [[_buttonGroupDisplay(toolbarButtons, 'history')]];">
               <!-- Undo and Redo -->
               <button type="button" part="toolbar-button toolbar-button-undo" on-click="_undo" title$="[[i18n.undo]]" style="display: [[_buttonDisplay(toolbarButtons, 'undo')]];">
@@ -816,10 +804,37 @@ Inline.order.push(PlaceholderBlot.blotName, ReadOnlyBlot.blotName, LinePartBlot.
 
       this._addToolbarListeners();
 
+
+      const test = [
+        {
+          table: TableModule.tableOptions()
+        },
+        {
+          table: [
+            'insert',
+            'append-row-above',
+            'append-row-below',
+            'append-col-before',
+            'append-col-after',
+            'remove-col',
+            'remove-row',
+            'remove-table',
+            'split-cell',
+            'merge-selection',
+            'remove-cell',
+            'remove-selection',
+            'hide-border',
+            'show-border',
+            'undo',
+            'redo'
+          ]
+        }
+      ];
+
       this._editor = new Quill(editor, {
         modules: {
           toolbar: toolbarConfig,
-          // table: true
+          table: true
         },
         // keyboard: {
         //   // Since Quill’s default handlers are added at initialization, the only way to prevent them is to add yours in the configuration.
@@ -1135,6 +1150,34 @@ Inline.order.push(PlaceholderBlot.blotName, ReadOnlyBlot.blotName, LinePartBlot.
         this._markToolbarClicked();
         this.placeholderAltAppearance = !this.placeholderAltAppearance;
       });
+
+      // [
+      //   {
+      //     table: TableModule.tableOptions()
+      //   },
+      //   {
+      //     table: [
+      //       'insert',
+      //       'append-row-above',
+      //       'append-row-below',
+      //       'append-col-before',
+      //       'append-col-after',
+      //       'remove-col',
+      //       'remove-row',
+      //       'remove-table',
+      //       'split-cell',
+      //       'merge-selection',
+      //       'remove-cell',
+      //       'remove-selection',
+      //       'hide-border',
+      //       'show-border',
+      //       'undo',
+      //       'redo'
+      //     ]
+      //   }
+      // ]
+
+      // TableModule.tableOptions()
 
       return toolbar;
     }
@@ -1670,6 +1713,10 @@ Inline.order.push(PlaceholderBlot.blotName, ReadOnlyBlot.blotName, LinePartBlot.
     _clear() {
       this._editor.deleteText(0, this._editor.getLength(), SOURCE.SILENT);
       this._updateHtmlValue();
+    }
+
+    _table(e) {
+      TableTrick.table_handler("newtable_2_2", this._editor);
     }
 
     _undo(e) {
