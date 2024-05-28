@@ -221,9 +221,15 @@ class TableSelection {
   }
 
   static resetSelection(container) {
+    // NOTE: not sure why the container is thrown in here, it was never used before, thus we do not use it neither
+
     // reset selection for all instances
-    document.querySelectorAll('.ql-editor td.ql-cell-selected').forEach(cell => {
-      cell.classList.remove('ql-cell-selected');
+    // since in the ERTE the quill is inside the shadow root, we cannot access it directly via the document, but the
+    // editor only
+    document.querySelectorAll("vcf-enhanced-rich-text-editor").forEach(rte => {
+      rte._editor.container.querySelectorAll('.ql-editor td.ql-cell-selected').forEach(cell => {
+        cell.classList.remove('ql-cell-selected');
+      });
     });
   }
 }
