@@ -205,7 +205,7 @@ Quill.register('modules/table', TableModule);
               <!-- Table -->
               <button type="button" on-click="_table" part="toolbar-button toolbar-button-table" title="table">
                 <slot name="table">
-                  <vaadin-icon part="toolbar-button-icon toolbar-button-table-icon"></vaadin-icon>
+                  <vaadin-icon icon="vcf-erte-extra-icons:table-icon" part="toolbar-button-table-icon"></vaadin-icon>
                 </slot>
               </button>
             </span>

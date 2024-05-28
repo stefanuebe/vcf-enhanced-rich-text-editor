@@ -58,9 +58,10 @@ documentContainer.innerHTML = `
           content: var(--vaadin-rte-icons-undo);
         }
 
-        [part~="toolbar-button-table-icon"]::before {
-          content: var(--vaadin-rte-icons-table);
-        }
+        /*[part~="toolbar-button-table-icon"]::after {*/
+        /*  content: "+";*/
+        /*  font-size: 0.5rem;*/
+        /*}*/
       </style>
     </template>
   </dom-module>
