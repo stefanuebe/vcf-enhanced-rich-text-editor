@@ -11,6 +11,7 @@ class QuillToolbarItem {
 
         me.qlFormatsEl = document.createElement("span")
         me.qlFormatsEl.className = "ql-formats"
+        me.qlFormatsEl.part.add("toolbar-group");
     }
     /**
      * Attaches this tool to the given Quill Editor instance.
@@ -99,7 +100,7 @@ export class QuillToolbarDropDown extends QuillToolbarItem {
 
         })
         window.addEventListener('click', function(e){
-            if (!qlPicker.contains(e.composedPath()[0])){
+            if (e.composedPath().indexOf(qlPicker) < 0){
                 qlPicker.classList.remove('ql-expanded')
             }
         })
@@ -111,9 +112,19 @@ export class QuillToolbarDropDown extends QuillToolbarItem {
         me.dropDownEl = qlPicker
         me.dropDownPickerEl = me.dropDownEl.querySelector('.ql-picker-options')
         me.dropDownPickerLabelEl = me.dropDownEl.querySelector('.ql-picker-label')
-        me.dropDownPickerLabelEl.innerHTML = `<svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg>`
 
-        me.setLabel(me.options.label || "")
+        // me.dropDownEl.part.add("toolbar-button");
+
+        if (me.options.showDropDownIndicator) {
+            me.dropDownPickerLabelEl.innerHTML = `<svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg>`;
+        }
+
+        if (me.options.icon) {
+            me.setIcon(me.options.icon, me.options.label);
+            this.dropDownEl.classList.add("icon");
+        } else {
+            me.setLabel(me.options.label || "")
+        }
         me.setItems(me.options.items || {})
 
         me._addCssRule(`
@@ -155,6 +166,17 @@ export class QuillToolbarDropDown extends QuillToolbarItem {
         me.dropDownPickerLabelEl.style.width = requiredWidth
         me.dropDownPickerLabelEl.setAttribute('data-label', newLabel)
     }
+
+    setIcon(icon, ariaLabel) {
+        let label = this.dropDownPickerLabelEl;
+        label.setAttribute('data-label', ariaLabel)
+        let iconElement = document.createElement("vaadin-icon");
+        iconElement.icon = icon;
+        iconElement.ariaLabel = ariaLabel;
+        iconElement.part.add("toolbar-button-vaadin-icon");
+        label.appendChild(iconElement);
+    }
+
     /**
      * A callback that gets called automatically when the dropdown selection changes. This callback is expected to be overwritten.
      *

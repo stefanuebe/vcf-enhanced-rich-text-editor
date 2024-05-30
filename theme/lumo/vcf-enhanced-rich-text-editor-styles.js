@@ -134,7 +134,8 @@ const richTextEditor = css`
         [part~="toolbar-button-align-right-icon"],
         [part~="toolbar-button-deindent-icon"], 
         [part~="toolbar-button-indent-icon"],
-        [part~="toolbar-button-readonly-icon"] {
+        [part~="toolbar-button-readonly-icon"],
+        [part~="toolbar-button-vaadin-icon"] {
           --rte-extra-icons-stroke-color: var(--lumo-contrast-60pct);
         }
         

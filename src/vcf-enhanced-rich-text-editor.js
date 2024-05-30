@@ -25,7 +25,8 @@ import './vcf-enhanced-rich-text-editor-toolbar-styles';
 import './vcf-enhanced-rich-text-editor-extra-icons';
 import { ReadOnlyBlot, LinePartBlot, TabBlot, PreTabBlot, TabsContBlot, PlaceholderBlot } from './vcf-enhanced-rich-text-editor-blots';
 import TableModule from './table/index.js';
-import TableTrick from "./table/js/TableTrick";
+import TableTrick from './table/js/TableTrick';
+import { QuillToolbarDropDown } from './utils/DynamicQuillTools';
 
 const Quill = window.Quill;
 const Inline = Quill.import('blots/inline');
@@ -392,27 +393,7 @@ Quill.register('modules/table', TableModule);
             </span>
 
             <input id="fileInput" type="file" accept="image/png, image/gif, image/jpeg, image/bmp, image/x-icon" on-change="_uploadImage" />
-
-            <span part="toolbar-group toolbar-group-table">
-              <!-- Table -->
-              <button type="button" on-click="_table" part="toolbar-button toolbar-button-table" title="TODO i18n table">
-                <slot name="table">
-                  <vaadin-icon icon="vcf-erte-extra-icons:table-icon" part="toolbar-button-table-icon"></vaadin-icon>
-                </slot>
-              </button>
-              <button type="button" on-click="_tableRows" part="toolbar-button toolbar-button-table-rows" title="TODO i18n table rows">
-                <slot name="table">
-                  <vaadin-icon icon="vcf-erte-extra-icons:table-rows-icon" part="toolbar-button-table-rows-icon"></vaadin-icon>
-                </slot>
-              </button>
-              <button type="button" on-click="_tableCols" part="toolbar-button toolbar-button-table-cols" title="TODO i18n table cols">
-                <slot name="table">
-                  <vaadin-icon icon="vcf-erte-extra-icons:table-cols-icon" part="toolbar-button-table-cols-icon"></vaadin-icon>
-                </slot>
-              </button>
-            </span>
           </div>
-
           <div style="overflow: hidden; box-sizing: content-box; width: 100% !important; height: 15px !important; flex-shrink: 0; display: [[_rulerDisplayFlexWrapper(noRulers)]];">
             <div style="overflow: hidden; box-sizing: content-box; border-color: rgb(158, 170, 182); border-style: solid; border-width: 0 1px 1px 0; width: 14px !important; height: 14px !important; display: [[_rulerDisplay(noRulers)]];"></div>
             <div style="position:relative; overflow: hidden; box-sizing: content-box; background: url('[[_rulerHori]]') repeat-x; flex-grow: 1; height: 15px !important; padding: 0; display: [[_rulerDisplay(noRulers)]];" on-click="_addTabStop" part="horizontalRuler"></div>
@@ -820,9 +801,7 @@ Quill.register('modules/table', TableModule);
           keyboard: {
             bindings: TableModule.keyBindings
           }
-        },
-
-
+        }
       });
       const _editor = this._editor;
 
@@ -845,6 +824,18 @@ Quill.register('modules/table', TableModule);
 
       this._patchToolbar();
       this._patchKeyboard();
+
+      const dropDown = new QuillToolbarDropDown(this._editor, this.shadowRoot, {
+        icon: 'vcf-erte-extra-icons:table-icon',
+        label: 'hello',
+        items: {
+          'world-1': 'itsa-me-1',
+          'world-2': 'itsa-me-2',
+          'world-3': 'itsa-me-3'
+        }
+      });
+
+      dropDown.attach();
 
       /* istanbul ignore if */
       if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1 && useShadow) {
@@ -1634,17 +1625,16 @@ Quill.register('modules/table', TableModule);
     }
 
     _table(e) {
-      TableTrick.table_handler("newtable_2_2", this._editor);
+      TableTrick.table_handler('newtable_2_2', this._editor);
     }
 
     _tableRows(e) {
-      console.warn("TBD rows");
+      console.warn('TBD rows');
     }
 
     _tableCols(e) {
-      console.warn("TBD cols");
+      console.warn('TBD cols');
     }
-
 
     _undo(e) {
       e.preventDefault();

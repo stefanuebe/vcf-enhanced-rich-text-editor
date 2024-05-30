@@ -72,7 +72,8 @@ documentContainer.innerHTML = `
         [part~="toolbar-button-align-right-icon"],
         [part~="toolbar-button-deindent-icon"], 
         [part~="toolbar-button-indent-icon"],
-        [part~="toolbar-button-readonly-icon"] {
+        [part~="toolbar-button-readonly-icon"],
+        [part~="toolbar-button-vaadin-icon"]{
           --rte-extra-icons-stroke-color: var(--lumo-contrast-80pct);
         }
 
@@ -157,6 +158,172 @@ documentContainer.innerHTML = `
           padding: 0 var(--lumo-space-xs);
           font-size: 0.875em;
         }
+
+        /* taken from snow theme. necessary for any dropdowns*/
+
+         .ql-picker:not([class~="icon"]) {
+          color: #444;
+          display: inline-block;
+          float: left;
+          font-size: 14px;
+          font-weight: 500;
+          height: 24px;
+          position: relative;
+          vertical-align: middle;
+        }
+        
+        .ql-picker:not([class~="icon"]) .ql-picker-label {
+          cursor: pointer;
+          display: inline-block;
+          height: 100%;
+          padding-left: 8px;
+          padding-right: 2px;
+          position: relative;
+          width: 100%;
+        }
+        .ql-picker:not([class~="icon"])  .ql-picker-label::before {
+          display: inline-block;
+          line-height: 22px;
+        }
+        
+        .ql-picker.icon {
+            width: var(--lumo-size-m, 2em);
+            height: var(--lumo-size-m, 2em);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .ql-picker.icon .ql-picker-label {
+          cursor: pointer;
+          display: inline;
+          align-self: center;
+        }
+        
+        .ql-picker-options {
+          background-color: #fff;
+          display: none;
+          min-width: 100%;
+          padding: 4px 8px;
+          position: absolute;
+          white-space: nowrap;
+        }
+         .ql-picker-options .ql-picker-item {
+          cursor: pointer;
+          display: block;
+          padding-bottom: 5px;
+          padding-top: 5px;
+        }
+        
+         .ql-picker.ql-expanded .ql-picker-label {
+          color: #ccc;
+          z-index: 2;
+        }
+         .ql-picker.ql-expanded .ql-picker-label .ql-fill {
+          fill: #ccc;
+        }
+         .ql-picker.ql-expanded .ql-picker-label .ql-stroke {
+          stroke: #ccc;
+        }
+         .ql-picker.ql-expanded .ql-picker-options {
+          display: block;
+          margin-top: -1px;
+          top: 100%;
+          z-index: 1;
+        }
+   
+         .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
+          position: absolute;
+          margin-top: -9px;
+          right: 0;
+          top: 50%;
+          width: 18px;
+        }
+         .ql-picker.ql-header .ql-picker-label[data-label]:not([data-label=''])::before,
+         .ql-picker.ql-font .ql-picker-label[data-label]:not([data-label=''])::before,
+         .ql-picker.ql-size .ql-picker-label[data-label]:not([data-label=''])::before,
+         .ql-picker.ql-header .ql-picker-item[data-label]:not([data-label=''])::before,
+         .ql-picker.ql-font .ql-picker-item[data-label]:not([data-label=''])::before,
+         .ql-picker.ql-size .ql-picker-item[data-label]:not([data-label=''])::before {
+          content: attr(data-label);
+        }
+        
+        /* .ql-picker.ql-font {*/
+        /*  width: 108px;*/
+        /*}*/
+        /* .ql-picker.ql-font .ql-picker-label::before,*/
+        /* .ql-picker.ql-font .ql-picker-item::before {*/
+        /*  content: 'Sans Serif';*/
+        /*}*/
+        /* .ql-picker.ql-font .ql-picker-label[data-value=serif]::before,*/
+        /* .ql-picker.ql-font .ql-picker-item[data-value=serif]::before {*/
+        /*  content: 'Serif';*/
+        /*}*/
+        /* .ql-picker.ql-font .ql-picker-label[data-value=monospace]::before,*/
+        /* .ql-picker.ql-font .ql-picker-item[data-value=monospace]::before {*/
+        /*  content: 'Monospace';*/
+        /*}*/
+        /* .ql-picker.ql-font .ql-picker-item[data-value=serif]::before {*/
+        /*  font-family: Georgia, Times New Roman, serif;*/
+        /*}*/
+        /* .ql-picker.ql-font .ql-picker-item[data-value=monospace]::before {*/
+        /*  font-family: Monaco, Courier New, monospace;*/
+        /*}*/
+        
+         .ql-picker.ql-size {
+          width: 98px;
+        }
+         .ql-picker.ql-size .ql-picker-label::before,
+         .ql-picker.ql-size .ql-picker-item::before {
+          content: 'Normal';
+        }
+         .ql-picker.ql-size .ql-picker-label[data-value=small]::before,
+         .ql-picker.ql-size .ql-picker-item[data-value=small]::before {
+          content: 'Small';
+        }
+         .ql-picker.ql-size .ql-picker-label[data-value=large]::before,
+         .ql-picker.ql-size .ql-picker-item[data-value=large]::before {
+          content: 'Large';
+        }
+         .ql-picker.ql-size .ql-picker-label[data-value=huge]::before,
+         .ql-picker.ql-size .ql-picker-item[data-value=huge]::before {
+          content: 'Huge';
+        }
+         .ql-picker.ql-size .ql-picker-item[data-value=small]::before {
+          font-size: 10px;
+        }
+         .ql-picker.ql-size .ql-picker-item[data-value=large]::before {
+          font-size: 18px;
+        }
+         .ql-picker.ql-size .ql-picker-item[data-value=huge]::before {
+          font-size: 32px;
+        }
+      
+        .ql-toolbar {
+          font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+          padding: 8px;
+        }
+        
+        .ql-toolbar .ql-picker-label {
+          border: 1px solid transparent;
+        }
+        
+        .ql-toolbar .ql-picker-options {
+          border: 1px solid transparent;
+          box-shadow: rgba(0,0,0,0.2) 0 2px 8px;
+        }
+        
+        .ql-toolbar .ql-picker.ql-expanded .ql-picker-label {
+          border-color: #ccc;
+        }
+        .ql-toolbar .ql-picker.ql-expanded .ql-picker-options {
+          border-color: #ccc;
+        }
+        
+        
+
+        
       </style>
     </template>
   </dom-module>
