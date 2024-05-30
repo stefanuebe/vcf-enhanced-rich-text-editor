@@ -825,15 +825,22 @@ Quill.register('modules/table', TableModule);
       this._patchToolbar();
       this._patchKeyboard();
 
+      const tableItems = {};
+
+      for (let r = 1; r <= 5; r++) {
+        for (let c = 1; c <= 5; c++) {
+          const key = 'newtable_' + r + '_' + c;
+          tableItems[key] = key;
+        }
+      }
+
       const dropDown = new QuillToolbarDropDown(this._editor, this.shadowRoot, {
         icon: 'vcf-erte-extra-icons:table-icon',
         label: 'hello',
-        items: {
-          'world-1': 'itsa-me-1',
-          'world-2': 'itsa-me-2',
-          'world-3': 'itsa-me-3'
-        }
+        items: tableItems
       });
+
+      dropDown.onSelect = (label, value, quill) => TableTrick.table_handler(value, this._editor);
 
       dropDown.attach();
 
