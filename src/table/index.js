@@ -318,4 +318,74 @@ export default class TableModule {
       return true;
     }
   }
+
+  static get keyBindings() {
+    return {
+      tab: {
+        key: 'tab',
+        handler: function (range, keycontext) {
+          let outSideOfTable = TableModule.keyboardHandler(this.quill, 'tab', range, keycontext)
+          if (outSideOfTable) { //for some reason when you return true as quill says it should hand it to the default like the other bindings... for tab it doesnt.
+            this.quill.history.cutoff(); //mimic the exact same thing quill does
+            let delta = new Delta().retain(range.index)
+                .delete(range.length)
+                .insert('\t');
+            this.quill.updateContents(delta, Quill.sources.USER);
+            this.quill.history.cutoff();
+            this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
+          }
+        }
+      },
+      shiftTab: {
+        key: 'tab',
+        shiftKey: true,
+        handler: function (range, keycontext) {
+          return TableModule.keyboardHandler(this.quill, 'shiftTab', range, keycontext);
+        }
+      },
+      selectAll: {
+        key: 'a',
+        shortKey: true,
+        handler: function (range, keycontext) {
+          return TableModule.keyboardHandler(this.quill, 'selectAll', range, keycontext);
+        }
+      },
+      backspace: {
+        key: 'backspace',
+        handler: function (range, keycontext) {
+          return TableModule.keyboardHandler(this.quill, 'backspace', range, keycontext);
+        }
+      },
+      delete: {
+        key: 'delete',
+        handler: function (range, keycontext) {
+          return TableModule.keyboardHandler(this.quill, 'delete', range, keycontext);
+        }
+      },
+      undo: {
+        shortKey: true,
+        key: 'z',
+        handler: function (range, keycontext) {
+          return TableModule.keyboardHandler(this.quill, 'undo', range, keycontext);
+        }
+      },
+      redo: {
+        shortKey: true,
+        shiftKey: true,
+        key: 'z',
+        handler: function (range, keycontext) {
+          return TableModule.keyboardHandler(this.quill, 'redo', range, keycontext);
+        }
+      },
+      copy: {
+        shortKey: true,
+        key: 'c',
+        handler: function (range, keycontext) {
+          return TableModule.keyboardHandler(this.quill, 'copy', range, keycontext);
+        }
+      }
+    };
+  }
 }
+
+

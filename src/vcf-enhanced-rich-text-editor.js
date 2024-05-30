@@ -201,16 +201,6 @@ Quill.register('modules/table', TableModule);
         <div class="vcf-enhanced-rich-text-editor-container">
           <!-- Create toolbar container -->
           <div part="toolbar">
-            <span part="toolbar-group toolbar-group-table">
-              <!-- Table -->
-              <button type="button" on-click="_table" part="toolbar-button toolbar-button-table" title="table">
-                <slot name="table">
-                  <vaadin-icon icon="vcf-erte-extra-icons:table-icon" part="toolbar-button-table-icon"></vaadin-icon>
-                </slot>
-              </button>
-            </span>
-
-
             <span part="toolbar-group toolbar-group-history" style="display: [[_buttonGroupDisplay(toolbarButtons, 'history')]];">
               <!-- Undo and Redo -->
               <button type="button" part="toolbar-button toolbar-button-undo" on-click="_undo" title$="[[i18n.undo]]" style="display: [[_buttonDisplay(toolbarButtons, 'undo')]];">
@@ -402,6 +392,25 @@ Quill.register('modules/table', TableModule);
             </span>
 
             <input id="fileInput" type="file" accept="image/png, image/gif, image/jpeg, image/bmp, image/x-icon" on-change="_uploadImage" />
+
+            <span part="toolbar-group toolbar-group-table">
+              <!-- Table -->
+              <button type="button" on-click="_table" part="toolbar-button toolbar-button-table" title="TODO i18n table">
+                <slot name="table">
+                  <vaadin-icon icon="vcf-erte-extra-icons:table-icon" part="toolbar-button-table-icon"></vaadin-icon>
+                </slot>
+              </button>
+              <button type="button" on-click="_tableRows" part="toolbar-button toolbar-button-table-rows" title="TODO i18n table rows">
+                <slot name="table">
+                  <vaadin-icon icon="vcf-erte-extra-icons:table-rows-icon" part="toolbar-button-table-rows-icon"></vaadin-icon>
+                </slot>
+              </button>
+              <button type="button" on-click="_tableCols" part="toolbar-button toolbar-button-table-cols" title="TODO i18n table cols">
+                <slot name="table">
+                  <vaadin-icon icon="vcf-erte-extra-icons:table-cols-icon" part="toolbar-button-table-cols-icon"></vaadin-icon>
+                </slot>
+              </button>
+            </span>
           </div>
 
           <div style="overflow: hidden; box-sizing: content-box; width: 100% !important; height: 15px !important; flex-shrink: 0; display: [[_rulerDisplayFlexWrapper(noRulers)]];">
@@ -804,106 +813,15 @@ Quill.register('modules/table', TableModule);
 
       this._addToolbarListeners();
 
-
-      const test = [
-        {
-          table: TableModule.tableOptions()
-        },
-        {
-          table: [
-            'insert',
-            'append-row-above',
-            'append-row-below',
-            'append-col-before',
-            'append-col-after',
-            'remove-col',
-            'remove-row',
-            'remove-table',
-            'split-cell',
-            'merge-selection',
-            'remove-cell',
-            'remove-selection',
-            'hide-border',
-            'show-border',
-            'undo',
-            'redo'
-          ]
-        }
-      ];
-
       this._editor = new Quill(editor, {
         modules: {
           toolbar: toolbarConfig,
-          table: true
+          table: true,
+          keyboard: {
+            bindings: TableModule.keyBindings
+          }
         },
-        // keyboard: {
-        //   // Since Quill’s default handlers are added at initialization, the only way to prevent them is to add yours in the configuration.
-        //   bindings: {
-        //     tab: {
-        //       key: 'tab',
-        //       handler: function (range, keycontext) {
-        //         let outSideOfTable = TableModule.keyboardHandler(this.quill, 'tab', range, keycontext)
-        //         if (outSideOfTable){ //for some reason when you return true as quill says it should hand it to the default like the other bindings... for tab it doesnt.
-        //           this.quill.history.cutoff(); //mimic the exact same thing quill does
-        //           let delta = new Delta().retain(range.index)
-        //               .delete(range.length)
-        //               .insert('\t');
-        //           this.quill.updateContents(delta, Quill.sources.USER);
-        //           this.quill.history.cutoff();
-        //           this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
-        //         }
-        //       }
-        //     },
-        //     shiftTab: {
-        //       key: 'tab',
-        //       shiftKey: true,
-        //       handler: function (range, keycontext) {
-        //         return TableModule.keyboardHandler(this.quill, 'shiftTab', range, keycontext);
-        //       }
-        //     },
-        //     selectAll: {
-        //       key: 'a',
-        //       shortKey: true,
-        //       handler: function (range, keycontext) {
-        //         return TableModule.keyboardHandler(this.quill, 'selectAll', range, keycontext);
-        //       }
-        //     },
-        //     backspace: {
-        //       key: 'backspace',
-        //       handler: function (range, keycontext) {
-        //         return TableModule.keyboardHandler(this.quill, 'backspace', range, keycontext);
-        //       }
-        //     },
-        //     delete: {
-        //       key: 'delete',
-        //       handler: function (range, keycontext) {
-        //         return TableModule.keyboardHandler(this.quill, 'delete', range, keycontext);
-        //       }
-        //     },
-        //     undo: {
-        //       shortKey: true,
-        //       key: 'z',
-        //       handler: function (range, keycontext) {
-        //         return TableModule.keyboardHandler(this.quill, 'undo', range, keycontext);
-        //       }
-        //     },
-        //     redo: {
-        //       shortKey: true,
-        //       shiftKey: true,
-        //       key: 'z',
-        //       handler: function (range, keycontext) {
-        //         return TableModule.keyboardHandler(this.quill, 'redo', range, keycontext);
-        //       }
-        //     },
-        //     copy: {
-        //       shortKey: true,
-        //       key: 'c',
-        //       handler: function (range, keycontext) {
-        //         return TableModule.keyboardHandler(this.quill, 'copy', range, keycontext);
-        //       }
-        //     }
-        //   }
-        // }
+
 
       });
       const _editor = this._editor;
@@ -1718,6 +1636,15 @@ Quill.register('modules/table', TableModule);
     _table(e) {
       TableTrick.table_handler("newtable_2_2", this._editor);
     }
+
+    _tableRows(e) {
+      console.warn("TBD rows");
+    }
+
+    _tableCols(e) {
+      console.warn("TBD cols");
+    }
+
 
     _undo(e) {
       e.preventDefault();
